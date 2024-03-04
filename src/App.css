@@ -1,0 +1,13 @@
+.todo {
+  display: grid;
+  place-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 100vh;
+}
+
+.checkbox:checked + span {
+  text-decoration: line-through;
+  color: black;
+  background-color: gray;
+}
