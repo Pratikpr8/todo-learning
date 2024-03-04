@@ -7,7 +7,8 @@ function App() {
   const [newTodoName, setNewTodoName] = useState<string>("");
   const [todos, setTodos] = useState<Todo[]>([]);
 
-  function addNewTodo() {
+  function addNewTodo(e: React.FormEvent) {
+    e.preventDefault();
     if (newTodoName === "") return;
 
     setTodos((currentTodos) => {
@@ -36,7 +37,32 @@ function App() {
   }
 
   return (
-    <div className="todo">
+    <form
+      onSubmit={addNewTodo}
+      className=" bg-slate-300 mx-auto my-auto grid place-content-center min-h-screen "
+    >
+      <div
+        id="new-todo-form"
+        className="flex flex-col justify-center items-center gap-4"
+      >
+        <label
+          className="text-xl font-semibold text-blue-500"
+          htmlFor="todo-input"
+        >
+          Todo list
+        </label>
+        <input
+          className="border-2 border-blue-500 focus:outline-none rounded-md p-2"
+          type="text"
+          id="todo-input"
+          value={newTodoName}
+          onChange={(e) => setNewTodoName(e.target.value)}
+        />
+        <button className="outline-none rounded-lg p-2 bg-blue-400 text-white hover:bg-blue-500 mb-6">
+          Add Todo
+        </button>
+      </div>
+
       <ul>
         {todos.map((todo) => {
           return (
@@ -49,18 +75,7 @@ function App() {
           );
         })}
       </ul>
-
-      <div id="new-todo-form">
-        <label htmlFor="todo-input">New Todo</label>
-        <input
-          type="text"
-          id="todo-input"
-          value={newTodoName}
-          onChange={(e) => setNewTodoName(e.target.value)}
-        />
-        <button onClick={addNewTodo}>Add Todo</button>
-      </div>
-    </div>
+    </form>
   );
 }
 

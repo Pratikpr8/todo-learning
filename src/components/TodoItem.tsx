@@ -12,7 +12,7 @@ function TodoItem({
   deleteTodo: (id: string) => void;
 }) {
   return (
-    <li>
+    <li className="mb-3 flex justify-between">
       <label>
         <input
           checked={completed}
@@ -20,9 +20,12 @@ function TodoItem({
           onChange={(e) => toggleTodo(id, e.target.checked)}
           className="checkbox"
         />
-        <span>{name}</span>
+        <span className="m-4">{name}</span>
       </label>
-      <button onClick={() => deleteTodo(id)} data-button-delete>
+      <button
+        className="text-sm bg-red-500 text-white p-1 rounded-md "
+        onClick={() => deleteTodo(id)}
+      >
         Delete
       </button>
     </li>
