@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import TodoItem from "./components/TodoItem";
 import { Todo } from "./utils/types";
 
 function App() {
   const [newTodoName, setNewTodoName] = useState<string>("");
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(
+    JSON.parse(localStorage.getItem("Todos") || "") || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("Todos", JSON.stringify(todos));
+  }, [todos]);
 
   function addNewTodo(e: React.FormEvent) {
     e.preventDefault();
