@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import TodoItem from "./components/TodoItem";
 import { Todo } from "./utils/types";
@@ -6,7 +6,7 @@ import { Todo } from "./utils/types";
 function App() {
   const [newTodoName, setNewTodoName] = useState<string>("");
   const [todos, setTodos] = useState<Todo[]>(
-    JSON.parse(localStorage.getItem("Todos") || "") || []
+    JSON.parse(localStorage.getItem("Todos") || "") || [],
   );
 
   useEffect(() => {
