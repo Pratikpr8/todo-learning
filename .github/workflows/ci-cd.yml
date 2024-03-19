@@ -1,0 +1,25 @@
+name: github-action
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint_and_format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint and format
+        run: npm run lint && npm run format
