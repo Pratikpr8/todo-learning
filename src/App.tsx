@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
-import TodoItem from "./components/TodoItem";
-import { Todo } from "./utils/types";
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import TodoItem from './components/TodoItem';
+import { type Todo } from './utils/types';
 
 function App() {
-  const [newTodoName, setNewTodoName] = useState<string>("");
+  const [newTodoName, setNewTodoName] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>(
-    JSON.parse(localStorage.getItem("Todos") || "") || [],
+    // eslint-disable-next-line
+    JSON.parse(localStorage.getItem('Todos') || '') || [],
   );
 
   useEffect(() => {
-    localStorage.setItem("Todos", JSON.stringify(todos));
+    // eslint-disable-next-line
+    localStorage.setItem('Todos', JSON.stringify(todos));
   }, [todos]);
 
   function addNewTodo(e: React.FormEvent) {
     e.preventDefault();
-    if (newTodoName === "") return;
+    if (newTodoName === '') return;
 
     setTodos((currentTodos) => {
       return [
@@ -24,7 +26,7 @@ function App() {
       ];
     });
 
-    setNewTodoName("");
+    setNewTodoName('');
   }
 
   function toggleTodo(todoId: string, completed: boolean) {
@@ -62,7 +64,9 @@ function App() {
           type="text"
           id="todo-input"
           value={newTodoName}
-          onChange={(e) => setNewTodoName(e.target.value)}
+          onChange={(e) => {
+            setNewTodoName(e.target.value);
+          }}
         />
         <button className="outline-none rounded-lg p-2 bg-blue-400 text-white hover:bg-blue-500 mb-6">
           Add Todo

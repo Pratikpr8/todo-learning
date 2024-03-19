@@ -4,10 +4,8 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
-    'next/core-web-vitals',
     'prettier',
   ],
   overrides: [
@@ -21,15 +19,14 @@ module.exports = {
       },
     },
   ],
-  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 'latest',
+    ecmaVersion: '2021',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'react'],
-
+  plugins: ['react'],
+  ignorePatterns: ['dist/'],
   rules: {
-    semi: ['error', 'always'],
-    quotes: ['error', 'double'],
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
 };

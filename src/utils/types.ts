@@ -1,13 +1,13 @@
 export enum Priority {
-  High = "high",
-  Medium = "medium",
-  Low = "low",
+  High = 'high',
+  Medium = 'medium',
+  Low = 'low',
 }
 
-export type Todo = {
+export interface Todo {
   name: string;
   completed: boolean;
   id: string;
   // description: string;
   // priority: Priority;
-};
+}

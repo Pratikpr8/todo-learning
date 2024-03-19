@@ -1,5 +1,3 @@
-import React from "react";
-
 function TodoItem({
   id,
   name,
@@ -19,14 +17,18 @@ function TodoItem({
         <input
           checked={completed}
           type="checkbox"
-          onChange={(e) => toggleTodo(id, e.target.checked)}
+          onChange={(e) => {
+            toggleTodo(id, e.target.checked);
+          }}
           className="checkbox"
         />
         <span className="m-4">{name}</span>
       </label>
       <button
         className="text-sm bg-red-500 text-white p-1 rounded-md "
-        onClick={() => deleteTodo(id)}
+        onClick={() => {
+          deleteTodo(id);
+        }}
       >
         Delete
       </button>
