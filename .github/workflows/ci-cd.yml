@@ -3,7 +3,7 @@ name: github-action
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   lint_and_format:
