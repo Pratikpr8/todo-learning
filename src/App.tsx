@@ -5,8 +5,15 @@ import InputComponent from './components/InputComponent';
 import { Priority, type Todo } from './utils/types';
 import TextareaComponent from './components/TextareaComponent';
 import ButtonComponent from './components/ButtonComponent';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 function App() {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<Todo>();
+
   const [newTodoName, setNewTodoName] = useState<Todo>({
     name: '',
     completed: false,
@@ -23,19 +30,20 @@ function App() {
     localStorage.setItem('Todos', JSON.stringify(todos));
   }, [todos]);
 
-  function addNewTodo(e: React.FormEvent) {
-    e.preventDefault();
-    if (newTodoName.name === '') return;
+  const addNewTodo: SubmitHandler<Todo> = (data) => {
+    // e.preventDefault();
+    console.log(data);
+    if (data.name === '') return;
 
     setTodos((currentTodos) => {
       return [
         ...currentTodos,
         {
-          name: newTodoName.name,
+          name: data.name,
           completed: false,
           id: crypto.randomUUID(),
-          description: newTodoName.description,
-          priority: newTodoName.priority,
+          description: data.description,
+          priority: data.priority,
         },
       ];
     });
@@ -47,7 +55,7 @@ function App() {
       description: '',
       priority: Priority.Medium,
     });
-  }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -78,7 +86,7 @@ function App() {
 
   return (
     <form
-      onSubmit={addNewTodo}
+      onSubmit={handleSubmit(addNewTodo)}
       // className=" bg-slate-300 grid place-content-center min-h-screen "
       className="mt-4"
     >
@@ -94,19 +102,27 @@ function App() {
         </label>
         <InputComponent
           type="text"
-          name="name"
+          // name="name"
           placeholder="Enter a todo"
           value={newTodoName.name}
-          onChange={handleChange}
+          // onChange={handleChange}
           className="border-2 border-blue-500 focus:outline-none rounded-md p-2"
+          {...register('name', { required: 'Name is required' })}
         />
+        {errors.name && (
+          <span className="text-red-500">{errors.name.message}</span>
+        )}
 
         <TextareaComponent
-          name="description"
+          // name="description"
           value={newTodoName.description}
           placeholder="Description"
-          onChange={handleChange}
+          // onChange={handleChange}
+          {...register('description', { required: 'Description is required' })}
         />
+        {errors.description && (
+          <span className="text-red-500">{errors.description.message}</span>
+        )}
 
         <span>
           <label htmlFor="priority">Priority Level :</label>
@@ -123,7 +139,7 @@ function App() {
         />
       </div>
 
-      <ul className="bg-slate-300 p-4 mx-auto">
+      <ul className="bg-slate-200 p-4 mx-auto">
         {todos.map((todo) => {
           return (
             <TodoItem
