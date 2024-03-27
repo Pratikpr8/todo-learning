@@ -98,6 +98,7 @@ function App() {
           placeholder="Enter a todo"
           value={newTodoName.name}
           onChange={handleChange}
+          className="border-2 border-blue-500 focus:outline-none rounded-md p-2"
         />
 
         <TextareaComponent
@@ -116,10 +117,13 @@ function App() {
           </select>
         </span>
 
-        <ButtonComponent text="Add Todo" />
+        <ButtonComponent
+          className="outline-none rounded-lg p-2 bg-blue-400 text-white hover:bg-blue-500 mb-6"
+          text="Add Todo"
+        />
       </div>
 
-      <ul>
+      <ul className="bg-slate-300 p-4 mx-auto">
         {todos.map((todo) => {
           return (
             <TodoItem

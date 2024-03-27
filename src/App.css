@@ -1,4 +1,5 @@
-.checkbox:checked + span {
+.checkbox:checked + span,
+.checkbox:checked + span + p {
   text-decoration: line-through;
   color: black;
   background-color: gray;

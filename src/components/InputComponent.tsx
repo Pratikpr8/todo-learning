@@ -1,9 +1,11 @@
 type InputComponentProps = {
   type: string;
-  name: string;
-  placeholder: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+  placeholder?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  checked?: boolean;
+  className?: string;
 };
 
 const InputComponent = ({
@@ -12,15 +14,18 @@ const InputComponent = ({
   placeholder,
   value,
   onChange,
+  className,
+  checked,
 }: InputComponentProps) => {
   return (
     <input
+      className={className}
+      checked={checked}
       type={type}
       name={name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="border-2 border-blue-500 focus:outline-none rounded-md p-2"
     />
   );
 };
