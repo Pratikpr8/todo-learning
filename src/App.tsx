@@ -19,6 +19,9 @@ function App() {
     JSON.parse(localStorage.getItem('Todos') || '') || [],
   );
 
+  const [searchItem, setSearchItem] = useState<string>('');
+  const [filterTodos, setfilterTodos] = useState<Todo[]>();
+
   useEffect(() => {
     localStorage.setItem('Todos', JSON.stringify(todos));
   }, [todos]);
@@ -76,6 +79,17 @@ function App() {
     });
   }
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchItem = e.target.value;
+    setSearchItem(searchItem);
+
+    const filteredTodos = todos.filter((todo) =>
+      todo.name.toLowerCase().includes(searchItem.toLowerCase()),
+    );
+
+    setfilterTodos(filteredTodos);
+  };
+
   return (
     <form
       onSubmit={addNewTodo}
@@ -123,8 +137,18 @@ function App() {
         />
       </div>
 
+      <div>
+        <InputComponent
+          onChange={handleSearchChange}
+          type="text"
+          value={searchItem}
+          placeholder="Search Todo"
+          className="border-2 border-blue-500 focus:outline-none rounded-md p-2 m-2"
+        />
+      </div>
+
       <ul className="bg-slate-300 p-4 mx-auto">
-        {todos.map((todo) => {
+        {(filterTodos ? filterTodos : todos).map((todo) => {
           return (
             <TodoItem
               key={todo.id}
