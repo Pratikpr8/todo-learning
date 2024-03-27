@@ -8,6 +8,6 @@ export interface Todo {
   name: string;
   completed: boolean;
   id: string;
-  // description: string;
-  // priority: Priority;
+  description: string;
+  priority: Priority;
 }

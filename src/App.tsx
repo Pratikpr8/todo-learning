@@ -1,33 +1,65 @@
-import React, { useState, useEffect } from 'react';
 import './App.css';
+import React, { useState, useEffect } from 'react';
 import TodoItem from './components/TodoItem';
-import { type Todo } from './utils/types';
+import InputComponent from './components/InputComponent';
+import { Priority, type Todo } from './utils/types';
+import TextareaComponent from './components/TextareaComponent';
+import ButtonComponent from './components/ButtonComponent';
 
 function App() {
-  const [newTodoName, setNewTodoName] = useState<string>('');
+  const [newTodoName, setNewTodoName] = useState<Todo>({
+    name: '',
+    completed: false,
+    id: '',
+    description: '',
+    priority: Priority.Medium,
+  });
+
   const [todos, setTodos] = useState<Todo[]>(
-    // eslint-disable-next-line
     JSON.parse(localStorage.getItem('Todos') || '') || [],
   );
 
   useEffect(() => {
-    // eslint-disable-next-line
     localStorage.setItem('Todos', JSON.stringify(todos));
   }, [todos]);
 
   function addNewTodo(e: React.FormEvent) {
     e.preventDefault();
-    if (newTodoName === '') return;
+    if (newTodoName.name === '') return;
 
     setTodos((currentTodos) => {
       return [
         ...currentTodos,
-        { name: newTodoName, completed: false, id: crypto.randomUUID() },
+        {
+          name: newTodoName.name,
+          completed: false,
+          id: crypto.randomUUID(),
+          description: newTodoName.description,
+          priority: newTodoName.priority,
+        },
       ];
     });
 
-    setNewTodoName('');
+    setNewTodoName({
+      name: '',
+      completed: false,
+      id: '',
+      description: '',
+      priority: Priority.Medium,
+    });
   }
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setNewTodoName((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   function toggleTodo(todoId: string, completed: boolean) {
     setTodos((currentTodos) => {
@@ -47,7 +79,8 @@ function App() {
   return (
     <form
       onSubmit={addNewTodo}
-      className=" bg-slate-300 mx-auto my-auto grid place-content-center min-h-screen "
+      // className=" bg-slate-300 grid place-content-center min-h-screen "
+      className="mt-4"
     >
       <div
         id="new-todo-form"
@@ -59,18 +92,31 @@ function App() {
         >
           Todo list
         </label>
-        <input
-          className="border-2 border-blue-500 focus:outline-none rounded-md p-2"
+        <InputComponent
           type="text"
-          id="todo-input"
-          value={newTodoName}
-          onChange={(e) => {
-            setNewTodoName(e.target.value);
-          }}
+          name="name"
+          placeholder="Enter a todo"
+          value={newTodoName.name}
+          onChange={handleChange}
         />
-        <button className="outline-none rounded-lg p-2 bg-blue-400 text-white hover:bg-blue-500 mb-6">
-          Add Todo
-        </button>
+
+        <TextareaComponent
+          name="description"
+          value={newTodoName.description}
+          placeholder="Description"
+          onChange={handleChange}
+        />
+
+        <span>
+          <label htmlFor="priority">Priority Level :</label>
+          <select className="p-2" name="priority" onChange={handleChange}>
+            <option value={Priority.High}>High</option>
+            <option value={Priority.Medium}>Medium</option>
+            <option value={Priority.Low}>Low</option>
+          </select>
+        </span>
+
+        <ButtonComponent text="Add Todo" />
       </div>
 
       <ul>
